@@ -40,7 +40,6 @@ class BookFormTableViewController: UITableViewController {
     }
     
     
-    
     func updateView() {
         guard let book = book else {return}
         

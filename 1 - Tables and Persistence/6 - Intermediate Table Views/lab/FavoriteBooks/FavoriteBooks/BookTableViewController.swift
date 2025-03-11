@@ -30,14 +30,18 @@ class BookTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "BookCell", for: indexPath)
-
-        let book = books[indexPath.row]
-        var content = cell.defaultContentConfiguration()
-        content.text = book.title
-        content.secondaryText = book.description
-        cell.contentConfiguration = content
-
+        var cell = tableView.dequeueReusableCell(withIdentifier: "BookCell", for: indexPath)
+        if let cell = cell as? BookTableViewCell {
+            
+            
+            let book = books[indexPath.row]
+            cell.update(with: book)
+            
+            //        var content = cell.defaultContentConfiguration()
+            //        content.text = book.title
+            //        content.secondaryText = book.description
+            //        cell.contentConfiguration = content
+        }
         return cell
     }
 

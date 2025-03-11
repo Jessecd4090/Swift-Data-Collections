@@ -17,6 +17,14 @@ class BookTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            books.remove(at: indexPath.row)
+            
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return books.count
     }
@@ -35,9 +43,11 @@ class BookTableViewController: UITableViewController {
 
     // MARK: - Navigation
     
+    
     @IBAction func prepareForUnwind(segue: UIStoryboardSegue) {
-        guard let source = segue.source as? BookFormViewController,
+        guard let source = segue.source as? BookFormTableViewController,
             let book = source.book else {return}
+       
         
         if let indexPath = tableView.indexPathForSelectedRow {
             books.remove(at: indexPath.row)

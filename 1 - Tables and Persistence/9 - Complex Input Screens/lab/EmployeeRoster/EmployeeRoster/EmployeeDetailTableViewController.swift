@@ -11,6 +11,17 @@ class EmployeeDetailTableViewController: UITableViewController, UITextFieldDeleg
     @IBOutlet var dobLabel: UILabel!
     @IBOutlet var employeeTypeLabel: UILabel!
     @IBOutlet var saveBarButtonItem: UIBarButtonItem!
+    @IBOutlet weak var dobDatePicker: UIDatePicker!
+    
+    var isEditingBirthday = false {
+        didSet {
+            tableView.beginUpdates()
+            tableView.endUpdates()
+        }
+    }
+    
+    let dobLabelIndexPath = IndexPath(row: 1, section: 0)
+    let dobIndexPath = IndexPath(row: 2, section: 0)
     
     weak var delegate: EmployeeDetailTableViewControllerDelegate?
     var employee: Employee?
@@ -21,6 +32,12 @@ class EmployeeDetailTableViewController: UITableViewController, UITextFieldDeleg
         updateView()
         updateSaveButtonState()
     }
+    
+    @IBAction func dobPickerValueChanged(_ sender: Any) {
+        dobLabel.textColor = .label
+        dobLabel.text = dobDatePicker.date.formatted(date: .abbreviated, time: .omitted)
+    }
+    
     
     func updateView() {
         if let employee = employee {
@@ -46,7 +63,7 @@ class EmployeeDetailTableViewController: UITableViewController, UITextFieldDeleg
             return
         }
         
-        let employee = Employee(name: name, dateOfBirth: Date(), employeeType: .exempt)
+        let employee = Employee(name: name, dateOfBirth: dobDatePicker.date, employeeType: .exempt)
         delegate?.employeeDetailTableViewController(self, didSave: employee)
     }
     
@@ -56,6 +73,23 @@ class EmployeeDetailTableViewController: UITableViewController, UITextFieldDeleg
 
     @IBAction func nameTextFieldDidChange(_ sender: UITextField) {
         updateSaveButtonState()
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let desiredIndexPath = indexPath
+        if desiredIndexPath == dobIndexPath && isEditingBirthday == false {
+            return 0
+        }
+        return UITableView.automaticDimension
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        if indexPath == dobLabelIndexPath {
+            isEditingBirthday.toggle()
+            dobLabel.textColor = .label
+            dobLabel.text = dobDatePicker.date.formatted(date: .abbreviated, time: .omitted)
+        }
     }
 
 }

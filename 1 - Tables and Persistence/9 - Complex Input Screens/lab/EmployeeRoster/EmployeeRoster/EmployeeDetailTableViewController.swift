@@ -1,11 +1,30 @@
 
 import UIKit
 
+
+//MARK: Protocol
 protocol EmployeeDetailTableViewControllerDelegate: AnyObject {
     func employeeDetailTableViewController(_ controller: EmployeeDetailTableViewController, didSave employee: Employee)
 }
 
-class EmployeeDetailTableViewController: UITableViewController, UITextFieldDelegate {
+
+
+    //MARK: Class Definition
+class EmployeeDetailTableViewController: UITableViewController, UITextFieldDelegate, EmployeeTypeTableViewControllerDelegate {
+    
+    
+    var delegate: EmployeeDetailTableViewControllerDelegate?
+    var employee: Employee?
+    var employeeType: EmployeeType?
+    
+    
+    func employeeTypeTableViewController(_: EmployeeTypeTableViewController, didSelect: EmployeeType) {
+        self.employeeType = didSelect
+        employeeTypeLabel.text = employeeType?.description
+        employeeTypeLabel.textColor = .black
+        updateSaveButtonState()
+    }
+    
 
     @IBOutlet var nameTextField: UITextField!
     @IBOutlet var dobLabel: UILabel!
@@ -20,12 +39,13 @@ class EmployeeDetailTableViewController: UITableViewController, UITextFieldDeleg
         }
     }
     
+    
+    
     let dobLabelIndexPath = IndexPath(row: 1, section: 0)
     let dobIndexPath = IndexPath(row: 2, section: 0)
     
-    weak var delegate: EmployeeDetailTableViewControllerDelegate?
-    var employee: Employee?
     
+    //MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -33,12 +53,37 @@ class EmployeeDetailTableViewController: UITableViewController, UITextFieldDeleg
         updateSaveButtonState()
     }
     
+    
+    //MARK: IBActions
+    @IBSegueAction func showEmployeeTypes(_ coder: NSCoder) -> EmployeeTypeTableViewController? {
+        let employeeVC = EmployeeTypeTableViewController(coder: coder)
+        employeeVC?.delegate = self
+        return employeeVC
+    }
+    
     @IBAction func dobPickerValueChanged(_ sender: Any) {
         dobLabel.textColor = .label
         dobLabel.text = dobDatePicker.date.formatted(date: .abbreviated, time: .omitted)
     }
     
+    @IBAction func cancelButtonTapped(_ sender: Any) {
+        employee = nil
+    }
     
+    @IBAction func saveButtonTapped(_ sender: Any) {
+        guard let name = nameTextField.text else { return }
+        guard let employeeType = employee?.employeeType else { return }
+        
+        employee = Employee(name: name, dateOfBirth: dobDatePicker.date, employeeType: employeeType)
+        delegate?.employeeDetailTableViewController(self, didSave: employee!)
+    }
+
+    
+    @IBAction func nameTextFieldDidChange(_ sender: UITextField) {
+        updateSaveButtonState()
+    }
+    
+    //MARK: Extra Functions
     func updateView() {
         if let employee = employee {
             navigationItem.title = employee.name
@@ -54,27 +99,13 @@ class EmployeeDetailTableViewController: UITableViewController, UITextFieldDeleg
     }
     
     private func updateSaveButtonState() {
-        let shouldEnableSaveButton = nameTextField.text?.isEmpty == false
-        saveBarButtonItem.isEnabled = shouldEnableSaveButton
-    }
-    
-    @IBAction func saveButtonTapped(_ sender: Any) {
-        guard let name = nameTextField.text else {
-            return
+        if employeeType != nil {
+            let shouldEnableSaveButton = nameTextField.text?.isEmpty == false
+            saveBarButtonItem.isEnabled = shouldEnableSaveButton
         }
-        
-        let employee = Employee(name: name, dateOfBirth: dobDatePicker.date, employeeType: .exempt)
-        delegate?.employeeDetailTableViewController(self, didSave: employee)
-    }
-    
-    @IBAction func cancelButtonTapped(_ sender: Any) {
-        employee = nil
     }
 
-    @IBAction func nameTextFieldDidChange(_ sender: UITextField) {
-        updateSaveButtonState()
-    }
-    
+
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let desiredIndexPath = indexPath
         if desiredIndexPath == dobIndexPath && isEditingBirthday == false {

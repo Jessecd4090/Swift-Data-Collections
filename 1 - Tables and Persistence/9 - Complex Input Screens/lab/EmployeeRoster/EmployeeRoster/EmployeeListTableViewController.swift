@@ -3,15 +3,19 @@ import UIKit
 
 class EmployeeListTableViewController: UITableViewController, EmployeeDetailTableViewControllerDelegate {
     
-    var employees: [Employee] = []
+    var employees: [Employee] = [Employee(name: "Jestin", dateOfBirth: Date(), employeeType: .partTime)]
+    var delegate: EmployeeDetailTableViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
     }
         
-    // MARK: - Table view data source
+    // MARK: - Tableview DataSource
     
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return employees.count
     }
@@ -61,7 +65,7 @@ class EmployeeListTableViewController: UITableViewController, EmployeeDetailTabl
         tableView.reloadData()
     }
     
-    // MARK: - EmployeeDetailTableViewControllerDelegate
+    // MARK: - Delegate
     
     func employeeDetailTableViewController(_ controller: EmployeeDetailTableViewController, didSave employee: Employee) {
         

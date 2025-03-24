@@ -213,7 +213,7 @@
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="fME-6a-8Wl">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="fNP-Az-Eeu">
                             <connections>
-                                <segue destination="vE1-1q-P3J" kind="unwind" unwindAction="unwindToEmployeeListWithSegue:" id="CxX-KR-9AX"/>
+                                <segue destination="vE1-1q-P3J" kind="unwind" unwindAction="unwindToEmployeeListWithSegue:" id="Lyr-dF-bXd"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="lF3-iR-7n9">

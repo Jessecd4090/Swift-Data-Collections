@@ -6,6 +6,8 @@ class EmployeeListTableViewController: UITableViewController, EmployeeDetailTabl
     var employees: [Employee] = [Employee(name: "Jestin", dateOfBirth: Date(), employeeType: .partTime)]
     var delegate: EmployeeDetailTableViewControllerDelegate?
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -62,6 +64,7 @@ class EmployeeListTableViewController: UITableViewController, EmployeeDetailTabl
     }
     
     @IBAction func unwindToEmployeeList(segue: UIStoryboardSegue) {
+        
         tableView.reloadData()
     }
     

@@ -2,14 +2,14 @@
 import UIKit
 
 
-//MARK: Protocol
+// MARK: Protocol
 protocol EmployeeDetailTableViewControllerDelegate: AnyObject {
     func employeeDetailTableViewController(_ controller: EmployeeDetailTableViewController, didSave employee: Employee)
 }
 
 
 
-    //MARK: Class Definition
+// MARK: Class Definition
 class EmployeeDetailTableViewController: UITableViewController, UITextFieldDelegate, EmployeeTypeTableViewControllerDelegate {
     
     
@@ -45,7 +45,8 @@ class EmployeeDetailTableViewController: UITableViewController, UITextFieldDeleg
     let dobIndexPath = IndexPath(row: 2, section: 0)
     
     
-    //MARK: ViewDidLoad
+// MARK: ViewDidLoad
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -54,7 +55,8 @@ class EmployeeDetailTableViewController: UITableViewController, UITextFieldDeleg
     }
     
     
-    //MARK: IBActions
+// MARK: IBActions
+    
     @IBSegueAction func showEmployeeTypes(_ coder: NSCoder) -> EmployeeTypeTableViewController? {
         let employeeVC = EmployeeTypeTableViewController(coder: coder)
         employeeVC?.delegate = self

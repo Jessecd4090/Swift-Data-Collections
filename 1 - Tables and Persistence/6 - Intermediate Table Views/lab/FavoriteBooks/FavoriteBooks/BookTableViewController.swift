@@ -4,9 +4,9 @@ class BookTableViewController: UITableViewController {
     
     var books: [Book] = []
     
+    //MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -14,45 +14,34 @@ class BookTableViewController: UITableViewController {
         
         tableView.reloadData()
     }
-
+    
     // MARK: - Table view data source
-
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             books.remove(at: indexPath.row)
-            
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return books.count
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCell(withIdentifier: "BookCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "BookCell", for: indexPath)
         if let cell = cell as? BookTableViewCell {
-            
-            
             let book = books[indexPath.row]
             cell.update(with: book)
-            
-            //        var content = cell.defaultContentConfiguration()
-            //        content.text = book.title
-            //        content.secondaryText = book.description
-            //        cell.contentConfiguration = content
         }
         return cell
     }
-
-    // MARK: - Navigation
     
+    // MARK: - Navigation
     
     @IBAction func prepareForUnwind(segue: UIStoryboardSegue) {
         guard let source = segue.source as? BookFormTableViewController,
-            let book = source.book else {return}
-       
-        
+              let book = source.book else {return}
         if let indexPath = tableView.indexPathForSelectedRow {
             books.remove(at: indexPath.row)
             books.insert(book, at: indexPath.row)
@@ -62,16 +51,13 @@ class BookTableViewController: UITableViewController {
         }
     }
     
-    @IBSegueAction func editBook(_ coder: NSCoder, sender: Any?) -> BookFormViewController? {
+    @IBSegueAction func editBook(_ coder: NSCoder, sender: Any?) -> BookFormTableViewController? {
         
         guard let cell = sender as? UITableViewCell, let indexPath = tableView.indexPath(for: cell) else {
             return nil
         }
         
         let book = books[indexPath.row]
-        
-        return BookFormViewController(coder: coder, book: book)
+        return BookFormTableViewController(coder: coder, book: book)
     }
-    
-    
 }

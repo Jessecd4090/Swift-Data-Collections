@@ -21,10 +21,12 @@ class BookTableViewCell: UITableViewCell {
     }
     
     func update(with Book: Book) {
-        titleLabel.text! += " " + Book.title
-        authorLabel.text? = Book.author
-        genreLabel.text! += " " + Book.genre
-        lengthLabel.text! += " " + Book.length
+        guard ((titleLabel.text?.isEmpty) != nil) else { return }
+            titleLabel.text? = Book.title
+            authorLabel.text? = Book.author
+            genreLabel.text? = Book.genre
+            lengthLabel.text? = Book.length
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

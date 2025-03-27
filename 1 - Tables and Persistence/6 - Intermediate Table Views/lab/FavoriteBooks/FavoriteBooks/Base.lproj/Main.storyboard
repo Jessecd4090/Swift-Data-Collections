@@ -274,14 +274,14 @@
                             <tableViewSection id="6v8-i0-3mv">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="twy-6y-2Wo">
-                                        <rect key="frame" x="20" y="484.66665840148926" width="362" height="57.333332061767578"/>
+                                        <rect key="frame" x="20" y="484.66665840148926" width="362" height="56.666667938232422"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="twy-6y-2Wo" id="lVE-lw-W7Z">
-                                            <rect key="frame" x="0.0" y="0.0" width="362" height="57.333332061767578"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="362" height="56.666667938232422"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EZA-54-GjC">
-                                                    <rect key="frame" x="55" y="11" width="252" height="35.333333333333336"/>
+                                                    <rect key="frame" x="55" y="11" width="252" height="34.666666666666664"/>
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="filled" title="Save"/>
                                                     <connections>

@@ -4,15 +4,28 @@ import UIKit
 class EmployeeListTableViewController: UITableViewController, EmployeeDetailTableViewControllerDelegate {
     
     var employees: [Employee] = [Employee(name: "Jestin", dateOfBirth: Date(), employeeType: .partTime)]
-    var delegate: EmployeeDetailTableViewControllerDelegate?
     
+    // MARK: - Delegate
     
+    func employeeDetailTableViewController(_ controller: EmployeeDetailTableViewController, didSave employee: Employee) {
+        
+        if let indexPath = tableView.indexPathForSelectedRow {
+            employees.remove(at: indexPath.row)
+            employees.insert(employee, at: indexPath.row)
+        } else {
+            employees.append(employee)
+        }
+        
+        tableView.reloadData()
+        
+    }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
     }
-        
+    
     // MARK: - Tableview DataSource
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -64,23 +77,13 @@ class EmployeeListTableViewController: UITableViewController, EmployeeDetailTabl
     }
     
     @IBAction func unwindToEmployeeList(segue: UIStoryboardSegue) {
-        
+        //        guard let sourceVC = segue.source as? EmployeeDetailTableViewController,
+        //        let sourceEmployee = sourceVC.employee else { return }
+        //        if segue.identifier == "saveUnwind" {
+        //            employees.append(sourceEmployee)
+        //        }
         tableView.reloadData()
     }
     
-    // MARK: - Delegate
-    
-    func employeeDetailTableViewController(_ controller: EmployeeDetailTableViewController, didSave employee: Employee) {
-        
-        if let indexPath = tableView.indexPathForSelectedRow {
-            employees.remove(at: indexPath.row)
-            employees.insert(employee, at: indexPath.row)
-        } else {
-            employees.append(employee)
-        }
-        
-        tableView.reloadData()
-        dismiss(animated: true, completion: nil)
-    }
 }
 

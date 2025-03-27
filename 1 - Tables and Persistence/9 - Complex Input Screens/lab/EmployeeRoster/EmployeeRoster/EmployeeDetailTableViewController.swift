@@ -18,6 +18,7 @@ class EmployeeDetailTableViewController: UITableViewController, UITextFieldDeleg
     var employeeType: EmployeeType?
     
     
+    
     func employeeTypeTableViewController(_: EmployeeTypeTableViewController, didSelect: EmployeeType) {
         self.employeeType = didSelect
         employeeTypeLabel.text = employeeType?.description
@@ -50,6 +51,7 @@ class EmployeeDetailTableViewController: UITableViewController, UITextFieldDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         updateView()
         updateSaveButtonState()
     }
@@ -73,11 +75,13 @@ class EmployeeDetailTableViewController: UITableViewController, UITextFieldDeleg
     }
     
     @IBAction func saveButtonTapped(_ sender: Any) {
-        guard let name = nameTextField.text else { return }
-        guard let employeeType = employee?.employeeType else { return }
+        guard let name = nameTextField.text,
+              let employeeType = self.employeeType else { return }
         
         employee = Employee(name: name, dateOfBirth: dobDatePicker.date, employeeType: employeeType)
         delegate?.employeeDetailTableViewController(self, didSave: employee!)
+        dismiss(animated: true, completion: nil)
+        print(employee)
     }
 
     

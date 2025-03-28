@@ -98,6 +98,7 @@ class EmployeeDetailTableViewController: UITableViewController, UITextFieldDeleg
             dobLabel.text = employee.dateOfBirth.formatted(date: .abbreviated, time: .omitted)
             dobLabel.textColor = .label
             employeeTypeLabel.text = employee.employeeType.description
+            self.employeeType = employee.employeeType
             employeeTypeLabel.textColor = .label
         } else {
             navigationItem.title = "New Employee"

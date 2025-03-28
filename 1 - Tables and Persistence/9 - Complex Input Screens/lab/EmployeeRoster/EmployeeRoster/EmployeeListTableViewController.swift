@@ -75,15 +75,5 @@ class EmployeeListTableViewController: UITableViewController, EmployeeDetailTabl
         
         return detailViewController
     }
-    
-    @IBAction func unwindToEmployeeList(segue: UIStoryboardSegue) {
-        //        guard let sourceVC = segue.source as? EmployeeDetailTableViewController,
-        //        let sourceEmployee = sourceVC.employee else { return }
-        //        if segue.identifier == "saveUnwind" {
-        //            employees.append(sourceEmployee)
-        //        }
-        tableView.reloadData()
-    }
-    
 }
 

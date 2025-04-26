@@ -19,4 +19,20 @@ extension Bill: Equatable {
     static func ==(_ lhs: Bill, _ rhs: Bill) -> Bool {
         return lhs.id == rhs.id
     }
+    
+    func removeReminders() {
+        
+    }
+    
+    mutating func scheduleReminder(input: Date) {
+        do {
+            let bill = Bill()
+        }
+    }
+    
+    private func notificationAuth(input: Bool) {
+        do {
+            
+        }
+    }
 }

@@ -8,8 +8,9 @@ class StoreItemListTableViewController: UITableViewController {
     @IBOutlet var filterSegmentedControl: UISegmentedControl!
     
     // add item controller property
+    let storeItemController = StoreItemController()
     
-    var items = [String]()
+    var items = [StoreItem]()
     var imageLoadTasks: [IndexPath: Task<Void, Never>] = [:]
     
     let queryOptions = ["movie", "music", "software", "ebook"]
@@ -30,10 +31,21 @@ class StoreItemListTableViewController: UITableViewController {
         if !searchTerm.isEmpty {
             
             // set up query dictionary
-            
+            let queryItems = [
+                "term": searchTerm,
+                "media": mediaType,
+                "limit": "10"
+            ]
             // use the item controller to fetch items
-            // if successful, use the main queue to set self.items and reload the table view
-            // otherwise, print an error to the console
+            Task {
+                do {
+                    let data = try await storeItemController.fetchItems(matching: queryItems)
+                    self.items = data
+                    tableView.reloadData()
+                } catch {
+                    print(error)
+                }
+            }
         }
     }
     
@@ -42,12 +54,19 @@ class StoreItemListTableViewController: UITableViewController {
         let item = items[indexPath.row]
         
         // set cell.name to the item's name
-        
+        cell.name = item.name
         // set cell.artist to the item's artist
-        
+        cell.artist = item.artist
         // set cell.artworkImage to nil
-        
+        cell.artworkImage = nil
         // initialize a network task to fetch the item's artwork keeping track of the task
+        imageLoadTasks[indexPath] = Task {
+            do {
+                let data = await storeItemController.fetchItemPic(url: item.artworkUrl)
+                cell.artworkImage = data
+            }
+            imageLoadTasks[indexPath] = nil
+        }
         // in imageLoadTasks so they can be cancelled if the cell will not be shown after
         // the task completes.
         //
